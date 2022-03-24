@@ -1,7 +1,7 @@
-﻿<Application x:Class="Image_dk.App"
+﻿<Application x:Class="Imagesdk.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Image_dk"
+             xmlns:local="clr-namespace:Imagesdk"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
          
