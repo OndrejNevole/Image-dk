@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using Imagesdk.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,12 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Imagesdk.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        private int[,] pixels;
 
         public RelayCommand AddImage { get; set; }
 
@@ -22,6 +27,9 @@ namespace Imagesdk.ViewModels
         public RelayCommand Mirror { get; set; }
 
         public RelayCommand Reverse { get; set; }
+
+        public BitmapImage BMI { get; set; }
+
         public MainViewModel()
         {
             AddImage = new RelayCommand(() =>
@@ -30,9 +38,25 @@ namespace Imagesdk.ViewModels
             }
             );
 
-            ShadesOfGrey = new RelayCommand(() =>
+            ShadesOfGrey = new RelayCommand((SolidColorBrush solidColorBrush) =>
             {
-                var x = 0;
+                pixels = BitmapImageToArray2D(BitmapImage src);
+
+                for (int x = 0; x < pixels.GetLength(0); x++)
+                {
+                    for (int y = 0; y < pixels.GetLength(1); y++)
+                    {
+                        int a = (int)(pixels[x, y] & 0xFF000000);
+                        int r = (pixels[x, y] >> 16) & 0xFF;
+                        int g = (pixels[x, y] >> 8) & 0xFF;
+                        int b = pixels[x, y] & 0xFF;
+
+
+                        int average = (r + b + g) / 3;
+                        pixels[x, y] = a + (r << 16) + (g << 8) + b;
+                    }
+                }
+                src = ConvertWriteableBitmapToBitmapImage();
             }
             );
 
