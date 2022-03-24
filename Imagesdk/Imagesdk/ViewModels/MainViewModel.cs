@@ -53,7 +53,7 @@ namespace Imagesdk.ViewModels
 
 
                         int average = (r + b + g) / 3;
-                        pixels[x, y] = a + (r << 16) + (g << 8) + b;
+                        pixels[x, y] = a + (average << 16) + (average << 8) + average; 
                     }
                 }
                 src = ConvertWriteableBitmapToBitmapImage();
